@@ -1,16 +1,12 @@
 version: '3'
 services:
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
+    image: muhammadaryasuherman/emyu-shop-backend:latest
     ports:
       - "9000:9000"
 
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
+    image: muhammadaryasuherman/emyu-shop-frontend:latest
     ports:
       - "5173:5173"
     environment:

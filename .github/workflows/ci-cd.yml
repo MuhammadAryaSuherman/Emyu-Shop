@@ -16,14 +16,26 @@ jobs:
     - name: Set up Docker
       uses: docker/setup-buildx-action@v1
 
-    - name: Build Docker Image
-      run: docker build -t emyu-shop:latest .
+    - name: Build Backend Docker Image
+      run: docker build -t emyu-shop-backend:latest -f Dockerfile.backend .
 
-    - name: Push to Docker Hub
+    - name: Build Frontend Docker Image
+      run: docker build -t emyu-shop-frontend:latest -f Dockerfile.frontend .
+
+    - name: Push Backend Image to Docker Hub
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        docker tag emyu-shop:latest muhammadaryasuherman/emyu-shop:latest
-        docker push muhammadaryasuherman/emyu-shop:latest
+        docker tag emyu-shop-backend:latest muhammadaryasuherman/emyu-shop-backend:latest
+        docker push muhammadaryasuherman/emyu-shop-backend:latest
+
+    - name: Push Frontend Image to Docker Hub
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker tag emyu-shop-frontend:latest muhammadaryasuherman/emyu-shop-frontend:latest
+        docker push muhammadaryasuherman/emyu-shop-frontend:latest
