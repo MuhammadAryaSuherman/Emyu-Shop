@@ -16,73 +16,68 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    - name: Build Backend Docker Image
-      run: docker build -t emyu-shop-backend:latest -f dockerfile-backend .
-
-    - name: Save Backend Image as Artifact
-      run: docker save emyu-shop-backend:latest -o emyu-shop-backend.tar
-    - name: Upload Backend Image Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: emyu-shop-backend
-        path: emyu-shop-backend.tar
-
-    - name: Build Frontend Docker Image
-      run: docker build -t emyu-shop-frontend:latest -f dockerfile-frontend .
-
-    - name: Save Frontend Image as Artifact
-      run: docker save emyu-shop-frontend:latest -o emyu-shop-frontend.tar
-    - name: Upload Frontend Image Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: emyu-shop-frontend
-        path: emyu-shop-frontend.tar
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-    - name: Download Backend Image Artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: emyu-shop-backend
-    - name: Load Backend Image
-      run: docker load -i emyu-shop-backend.tar
-
-    - name: Download Frontend Image Artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: emyu-shop-frontend
-    - name: Load Frontend Image
-      run: docker load -i emyu-shop-frontend.tar
-
-    - name: Test Backend
-      run: docker run --rm emyu-shop-backend:latest npm test
-
-    - name: Test Frontend
-      run: docker run --rm emyu-shop-frontend:latest npm test
-
-  push:
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Push Backend Image to Docker Hub
+    - name: Build and Push Backend Docker Image
       run: |
-        docker tag emyu-shop-backend:latest muhammadaryasuherman/emyu-shop-backend:latest
+        docker build -t muhammadaryasuherman/emyu-shop-backend:cache -f dockerfile-backend .
+        docker push muhammadaryasuherman/emyu-shop-backend:cache
+
+    - name: Build and Push Frontend Docker Image
+      run: |
+        docker build -t muhammadaryasuherman/emyu-shop-frontend:cache -f dockerfile-frontend .
+        docker push muhammadaryasuherman/emyu-shop-frontend:cache
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Pull Backend Image
+      run: docker pull muhammadaryasuherman/emyu-shop-backend:cache
+
+    - name: Pull Frontend Image
+      run: docker pull muhammadaryasuherman/emyu-shop-frontend:cache
+
+    - name: Test Backend
+      run: docker run --rm muhammadaryasuherman/emyu-shop-backend:cache npm test
+
+    - name: Test Frontend
+      run: docker run --rm muhammadaryasuherman/emyu-shop-frontend:cache npm test
+
+  push:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Pull Backend Image
+      run: docker pull muhammadaryasuherman/emyu-shop-backend:cache
+
+    - name: Pull Frontend Image
+      run: docker pull muhammadaryasuherman/emyu-shop-frontend:cache
+
+    - name: Retag and Push Backend Image
+      run: |
+        docker tag muhammadaryasuherman/emyu-shop-backend:cache muhammadaryasuherman/emyu-shop-backend:latest
         docker push muhammadaryasuherman/emyu-shop-backend:latest
 
-    - name: Push Frontend Image to Docker Hub
+    - name: Retag and Push Frontend Image
       run: |
-        docker tag emyu-shop-frontend:latest muhammadaryasuherman/emyu-shop-frontend:latest
+        docker tag muhammadaryasuherman/emyu-shop-frontend:cache muhammadaryasuherman/emyu-shop-frontend:latest
         docker push muhammadaryasuherman/emyu-shop-frontend:latest
