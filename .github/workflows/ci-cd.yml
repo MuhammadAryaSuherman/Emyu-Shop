@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-test-push:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,63 +16,54 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    # Backend
+    # Build Backend
     - name: Build Backend Docker Image
       run: docker build -t emyu-shop-backend:latest -f dockerfile-backend .
+
+    # Build Frontend
+    - name: Build Frontend Docker Image
+      run: docker build -t emyu-shop-frontend:latest -f dockerfile-frontend .
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
     - name: Test Backend
       run: |
         docker run --rm emyu-shop-backend:latest npm test
-        # Gantilah `npm test` dengan command untuk menjalankan tes pada backend Anda
-
-    - name: Push Backend Image to Docker Hub
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        docker tag emyu-shop-backend:latest muhammadaryasuherman/emyu-shop-backend:latest
-        docker push muhammadaryasuherman/emyu-shop-backend:latest
-
-    # Frontend
-    - name: Build Frontend Docker Image
-      run: docker build -t emyu-shop-frontend:latest -f dockerfile-frontend .
+        # Sesuaikan perintah ini dengan command test backend
 
     - name: Test Frontend
       run: |
         docker run --rm emyu-shop-frontend:latest npm test
-        # Gantilah `npm test` dengan command untuk menjalankan tes pada frontend Anda
+        # Sesuaikan perintah ini dengan command test frontend
 
-    - name: Push Frontend Image to Docker Hub
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  push:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # Push Backend Image
+    - name: Push Backend Image to Docker Hub
       run: |
-        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker tag emyu-shop-backend:latest muhammadaryasuherman/emyu-shop-backend:latest
+        docker push muhammadaryasuherman/emyu-shop-backend:latest
+
+    # Push Frontend Image
+    - name: Push Frontend Image to Docker Hub
+      run: |
         docker tag emyu-shop-frontend:latest muhammadaryasuherman/emyu-shop-frontend:latest
         docker push muhammadaryasuherman/emyu-shop-frontend:latest
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-test-push
-    if: github.ref == 'refs/heads/master'
-    
-    steps:
-      - name: Deploy to Server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          USER: ${{ secrets.USER }}
-        run: |
-          # Login ke server menggunakan SSH
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
-          ssh -o StrictHostKeyChecking=no $USER@$SERVER_IP << 'EOF'
-            docker pull muhammadaryasuherman/emyu-shop-backend:latest
-            docker pull muhammadaryasuherman/emyu-shop-frontend:latest
-            docker stop emyu-shop-backend || true
-            docker stop emyu-shop-frontend || true
-            docker rm emyu-shop-backend || true
-            docker rm emyu-shop-frontend || true
-            docker run -d --name emyu-shop-backend -p 9000:9000 muhammadaryasuherman/emyu-shop-backend:latest
-            docker run -d --name emyu-shop-frontend -p 5173:5173 muhammadaryasuherman/emyu-shop-frontend:latest
-          EOF
