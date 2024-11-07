@@ -1,14 +1,18 @@
 version: '3'
 services:
   backend:
-    image: muhammadaryasuherman/emyu-shop-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
     ports:
       - "9000:9000"
     volumes:
-      - ./data:/app/data
+      - ./data:/data  # Menghubungkan folder `data` langsung ke root container
 
   frontend:
-    image: muhammadaryasuherman/emyu-shop-frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
     ports:
       - "5173:5173"
     environment:

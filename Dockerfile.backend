@@ -1,12 +1,12 @@
-# Contoh Dockerfile
-FROM node:18
+FROM node:16
 
-WORKDIR /app
+WORKDIR /app 
 
-COPY package.json ./
+COPY package*.json ./
 RUN npm install
 
+# Copy seluruh proyek, termasuk folder `data`
 COPY . .
 
 EXPOSE 9000
-CMD ["npm", "run", "server"]
+CMD ["json-server", "--watch", "/data/product.json", "--port", "9000"]
