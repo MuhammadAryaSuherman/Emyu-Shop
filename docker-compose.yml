@@ -4,6 +4,8 @@ services:
     image: muhammadaryasuherman/emyu-shop-backend:latest
     ports:
       - "9000:9000"
+    volumes:
+      - ./data:/app/data
 
   frontend:
     image: muhammadaryasuherman/emyu-shop-frontend:latest
