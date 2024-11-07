@@ -21,6 +21,9 @@ jobs:
         docker build -t muhammadaryasuherman/emyu-shop-backend:latest -t muhammadaryasuherman/emyu-shop-backend:$TAG -f dockerfile-backend .
         docker build -t muhammadaryasuherman/emyu-shop-frontend:latest -t muhammadaryasuherman/emyu-shop-frontend:$TAG -f dockerfile-frontend .
 
+    - name: List Docker Images
+      run: docker images  # Menampilkan daftar image yang telah dibuat untuk verifikasi
+
   test:
     runs-on: ubuntu-latest
     needs: build
