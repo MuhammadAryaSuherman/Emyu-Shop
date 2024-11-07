@@ -25,8 +25,8 @@ jobs:
       - name: Build Docker Images
         run: |
           VERSION_TAG=$(date +'%Y%m%d')-${{ github.sha }}
-          docker build -t muhammadaryasuherman/emyu-shop-backend:master -t muhammadaryasuherman/emyu-shop-backend:$VERSION_TAG -f Dockerfile.backend .
-          docker build -t muhammadaryasuherman/emyu-shop-frontend:master -t muhammadaryasuherman/emyu-shop-frontend:$VERSION_TAG -f Dockerfile.frontend .
+          docker build -t muhammadaryasuherman/emyu-shop-backend:master -t muhammadaryasuherman/emyu-shop-backend:$VERSION_TAG -f dockerfile.backend .
+          docker build -t muhammadaryasuherman/emyu-shop-frontend:master -t muhammadaryasuherman/emyu-shop-frontend:$VERSION_TAG -f dockerfile.frontend .
         env:
           VERSION_TAG: ${{ github.sha }}
 
