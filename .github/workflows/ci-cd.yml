@@ -72,12 +72,12 @@ jobs:
     - name: Pull Frontend Image
       run: docker pull muhammadaryasuherman/emyu-shop-frontend:cache
 
-    - name: Retag and Push Backend Image
+    - name: Retag and Push Backend Image as master
       run: |
-        docker tag muhammadaryasuherman/emyu-shop-backend:cache muhammadaryasuherman/emyu-shop-backend:latest
-        docker push muhammadaryasuherman/emyu-shop-backend:latest
+        docker tag muhammadaryasuherman/emyu-shop-backend:cache muhammadaryasuherman/emyu-shop-backend:master
+        docker push muhammadaryasuherman/emyu-shop-backend:master
 
-    - name: Retag and Push Frontend Image
+    - name: Retag and Push Frontend Image as master
       run: |
-        docker tag muhammadaryasuherman/emyu-shop-frontend:cache muhammadaryasuherman/emyu-shop-frontend:latest
-        docker push muhammadaryasuherman/emyu-shop-frontend:latest
+        docker tag muhammadaryasuherman/emyu-shop-frontend:cache muhammadaryasuherman/emyu-shop-frontend:master
+        docker push muhammadaryasuherman/emyu-shop-frontend:master
