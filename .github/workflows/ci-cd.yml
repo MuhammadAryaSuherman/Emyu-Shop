@@ -18,11 +18,20 @@ jobs:
     - name: Build Docker Images
       run: |
         TAG=${GITHUB_SHA::7}
+        echo "Building backend image with tag: $TAG"
         docker build -t muhammadaryasuherman/emyu-shop-backend:latest -t muhammadaryasuherman/emyu-shop-backend:$TAG -f dockerfile-backend .
+        
+        echo "Building frontend image with tag: $TAG"
         docker build -t muhammadaryasuherman/emyu-shop-frontend:latest -t muhammadaryasuherman/emyu-shop-frontend:$TAG -f dockerfile-frontend .
 
-    - name: List Docker Images
-      run: docker images  # Menampilkan daftar image yang telah dibuat untuk verifikasi
+    - name: List Docker Images After Build
+      run: docker images
+
+    - name: Verify Docker Image Backend
+      run: docker inspect --format='{{.Id}}' muhammadaryasuherman/emyu-shop-backend:latest || echo "Backend image not found"
+
+    - name: Verify Docker Image Frontend
+      run: docker inspect --format='{{.Id}}' muhammadaryasuherman/emyu-shop-frontend:latest || echo "Frontend image not found"
 
   test:
     runs-on: ubuntu-latest
