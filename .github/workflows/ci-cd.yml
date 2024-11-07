@@ -22,7 +22,7 @@ jobs:
     - name: Save Backend Image as Artifact
       run: docker save emyu-shop-backend:latest -o emyu-shop-backend.tar
     - name: Upload Backend Image Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: emyu-shop-backend
         path: emyu-shop-backend.tar
@@ -33,7 +33,7 @@ jobs:
     - name: Save Frontend Image as Artifact
       run: docker save emyu-shop-frontend:latest -o emyu-shop-frontend.tar
     - name: Upload Frontend Image Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: emyu-shop-frontend
         path: emyu-shop-frontend.tar
@@ -44,14 +44,14 @@ jobs:
 
     steps:
     - name: Download Backend Image Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v2
       with:
         name: emyu-shop-backend
     - name: Load Backend Image
       run: docker load -i emyu-shop-backend.tar
 
     - name: Download Frontend Image Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v2
       with:
         name: emyu-shop-frontend
     - name: Load Frontend Image
