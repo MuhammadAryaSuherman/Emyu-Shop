@@ -1,13 +1,29 @@
 version: '3'
+
 services:
   backend:
-    image: muhammadaryasuherman/emyu-shop-backend:latest
+    image: muhammadaryasuherman/emyu-shop-backend:master
+    container_name: emyu-shop-backend
     ports:
       - "9000:9000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - emyu-shop-network
 
   frontend:
-    image: muhammadaryasuherman/emyu-shop-frontend:latest
+    image: muhammadaryasuherman/emyu-shop-frontend:master
+    container_name: emyu-shop-frontend
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://backend:9000
+      - NODE_ENV=production
+      - VITE_API_URL=http://backend:9000  # Mengarahkan frontend ke layanan backend di Docker
+    depends_on:
+      - backend
+    networks:
+      - emyu-shop-network
+
+networks:
+  emyu-shop-network:
+    driver: bridge
