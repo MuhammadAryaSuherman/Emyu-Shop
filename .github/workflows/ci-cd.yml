@@ -3,7 +3,7 @@ name: CI/CD Workflow
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -20,9 +20,9 @@ jobs:
         # Menggunakan hash pendek commit sebagai tag versi unik
         TAG=${GITHUB_SHA::7}
 
-        # Build image dengan dua tag: latest dan versi berdasarkan commit SHA
-        docker build -t muhammadaryasuherman/emyu-shop-backend:latest -t muhammadaryasuherman/emyu-shop-backend:$TAG -f Dockerfile.backend .
-        docker build -t muhammadaryasuherman/emyu-shop-frontend:latest -t muhammadaryasuherman/emyu-shop-frontend:$TAG -f Dockerfile.frontend .
+        # Build image backend dan frontend menggunakan nama file yang benar
+        docker build -t muhammadaryasuherman/emyu-shop-backend:latest -t muhammadaryasuherman/emyu-shop-backend:$TAG -f dockerfile-backend .
+        docker build -t muhammadaryasuherman/emyu-shop-frontend:latest -t muhammadaryasuherman/emyu-shop-frontend:$TAG -f dockerfile-frontend .
   
   test:
     runs-on: ubuntu-latest
@@ -33,7 +33,8 @@ jobs:
 
     - name: Run Tests
       run: |
-        # Pastikan Anda sudah menyiapkan tes di package.json
+        # Contoh: Menjalankan tes untuk aplikasi frontend atau backend
+        # Pastikan Anda telah menyiapkan skrip test di package.json
         cd frontend
         npm install
         npm test
