@@ -25,6 +25,9 @@ jobs:
           echo "Building frontend image with tags: master and $VERSION_TAG"
           docker build -t muhammadaryasuherman/emyu-shop-frontend:master -t muhammadaryasuherman/emyu-shop-frontend:$VERSION_TAG -f dockerfile-frontend .
 
+      - name: List Docker Images After Build
+        run: docker images  # Verifikasi bahwa image telah dibuat
+
   test:
     runs-on: ubuntu-latest
     needs: build
