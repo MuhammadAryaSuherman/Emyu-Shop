@@ -17,13 +17,10 @@ jobs:
 
     - name: Build Docker Images
       run: |
-        # Menggunakan hash pendek commit sebagai tag versi unik
         TAG=${GITHUB_SHA::7}
-
-        # Build image backend dan frontend menggunakan nama file yang benar
         docker build -t muhammadaryasuherman/emyu-shop-backend:latest -t muhammadaryasuherman/emyu-shop-backend:$TAG -f dockerfile-backend .
         docker build -t muhammadaryasuherman/emyu-shop-frontend:latest -t muhammadaryasuherman/emyu-shop-frontend:$TAG -f dockerfile-frontend .
-  
+
   test:
     runs-on: ubuntu-latest
     needs: build
@@ -33,9 +30,6 @@ jobs:
 
     - name: Run Tests
       run: |
-        # Contoh: Menjalankan tes untuk aplikasi frontend atau backend
-        # Pastikan Anda telah menyiapkan skrip test di package.json
-        cd frontend
         npm install
         npm test
 
@@ -55,11 +49,7 @@ jobs:
     - name: Push Docker Images
       run: |
         TAG=${GITHUB_SHA::7}
-
-        # Push image dengan tag `latest`
         docker push muhammadaryasuherman/emyu-shop-backend:latest
         docker push muhammadaryasuherman/emyu-shop-frontend:latest
-
-        # Push image dengan tag versi unik (berdasarkan commit SHA)
         docker push muhammadaryasuherman/emyu-shop-backend:$TAG
         docker push muhammadaryasuherman/emyu-shop-frontend:$TAG
