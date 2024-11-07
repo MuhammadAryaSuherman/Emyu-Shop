@@ -3,11 +3,15 @@ FROM node:18
 
 WORKDIR /app
 
-COPY package.json ./
+# Copy package.json dan package-lock.json terlebih dahulu untuk caching
+COPY package*.json ./
 RUN npm install
 
+# Copy semua file proyek termasuk data/product.json
 COPY . .
 
+# Expose port untuk backend
 EXPOSE 9000
 
+# Menjalankan json-server
 CMD ["npm", "run", "server"]
