@@ -16,31 +16,52 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    # Build Backend
     - name: Build Backend Docker Image
       run: docker build -t emyu-shop-backend:latest -f dockerfile-backend .
 
-    # Build Frontend
+    - name: Save Backend Image as Artifact
+      run: docker save emyu-shop-backend:latest -o emyu-shop-backend.tar
+    - name: Upload Backend Image Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: emyu-shop-backend
+        path: emyu-shop-backend.tar
+
     - name: Build Frontend Docker Image
       run: docker build -t emyu-shop-frontend:latest -f dockerfile-frontend .
+
+    - name: Save Frontend Image as Artifact
+      run: docker save emyu-shop-frontend:latest -o emyu-shop-frontend.tar
+    - name: Upload Frontend Image Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: emyu-shop-frontend
+        path: emyu-shop-frontend.tar
 
   test:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+    - name: Download Backend Image Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: emyu-shop-backend
+    - name: Load Backend Image
+      run: docker load -i emyu-shop-backend.tar
+
+    - name: Download Frontend Image Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: emyu-shop-frontend
+    - name: Load Frontend Image
+      run: docker load -i emyu-shop-frontend.tar
 
     - name: Test Backend
-      run: |
-        docker run --rm emyu-shop-backend:latest npm test
-        # Sesuaikan perintah ini dengan command test backend
+      run: docker run --rm emyu-shop-backend:latest npm test
 
     - name: Test Frontend
-      run: |
-        docker run --rm emyu-shop-frontend:latest npm test
-        # Sesuaikan perintah ini dengan command test frontend
+      run: docker run --rm emyu-shop-frontend:latest npm test
 
   push:
     runs-on: ubuntu-latest
@@ -56,13 +77,11 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # Push Backend Image
     - name: Push Backend Image to Docker Hub
       run: |
         docker tag emyu-shop-backend:latest muhammadaryasuherman/emyu-shop-backend:latest
         docker push muhammadaryasuherman/emyu-shop-backend:latest
 
-    # Push Frontend Image
     - name: Push Frontend Image to Docker Hub
       run: |
         docker tag emyu-shop-frontend:latest muhammadaryasuherman/emyu-shop-frontend:latest
