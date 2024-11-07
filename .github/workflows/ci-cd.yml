@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VERSION_TAG: "${{ github.sha }}"  # Mendefinisikan VERSION_TAG untuk digunakan di semua langkah
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -17,7 +19,6 @@ jobs:
 
       - name: Build Docker Images
         run: |
-          VERSION_TAG=${GITHUB_SHA::7}
           echo "Building backend image with tags: master and $VERSION_TAG"
           docker build -t muhammadaryasuherman/emyu-shop-backend:master -t muhammadaryasuherman/emyu-shop-backend:$VERSION_TAG -f dockerfile-backend .
           
@@ -39,6 +40,8 @@ jobs:
   push:
     runs-on: ubuntu-latest
     needs: [build, test]
+    env:
+      VERSION_TAG: "${{ github.sha }}"  # Mendefinisikan VERSION_TAG untuk digunakan di semua langkah
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -53,12 +56,8 @@ jobs:
         run: |
           docker push muhammadaryasuherman/emyu-shop-backend:master
           docker push muhammadaryasuherman/emyu-shop-backend:$VERSION_TAG
-        env:
-          VERSION_TAG: ${{ github.sha }}
 
       - name: Push Frontend Docker Image
         run: |
           docker push muhammadaryasuherman/emyu-shop-frontend:master
           docker push muhammadaryasuherman/emyu-shop-frontend:$VERSION_TAG
-        env:
-          VERSION_TAG: ${{ github.sha }}
