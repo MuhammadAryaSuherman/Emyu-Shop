@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Menggunakan VITE_API_URL atau fallback ke localhost:9000
 const BASE_API = `${import.meta.env.VITE_API_URL || "http://localhost:9000"}/products`;
 
 const initialState = {
