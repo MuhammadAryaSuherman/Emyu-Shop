@@ -8,10 +8,9 @@
   "build": "vite build",
   "lint": "eslint .",
   "preview": "vite preview",
-  "server": "node server.js",
+  "server": "json-server --watch data/product.json --port 9000",
   "test": "echo \"No tests specified\" && exit 0"
 }
-
 
 ,
   "dependencies": {
