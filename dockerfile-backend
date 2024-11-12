@@ -10,4 +10,5 @@ COPY . .
 
 EXPOSE 9000
 
+# Menjalankan json-server
 CMD ["npm", "run", "server"]
