@@ -9,7 +9,7 @@ on:
       - 'Dockerfile.frontend'
       - 'src/**'        # Jika frontend Anda berada di folder src
       - 'data/**'       # Jika backend Anda berada di folder data
-      - '.github/workflows/**' # Menjalankan ulang jika ada perubahan di file workflow ini
+      - '.github/workflows/**'
 
 jobs:
   build:
