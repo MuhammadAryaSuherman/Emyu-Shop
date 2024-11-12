@@ -6,10 +6,8 @@ WORKDIR /data
 COPY package*.json ./
 RUN npm install
 
-# Copy semua file proyek termasuk data/product.json
 COPY . .
 
-# Expose port untuk backend
 EXPOSE 9000
 
 # Menjalankan json-server
