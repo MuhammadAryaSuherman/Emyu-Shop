@@ -18,7 +18,7 @@ services:
       - "5173:5173"
     environment:
       - NODE_ENV=production
-      - VITE_API_URL=http://emyu-shop-backend:9000  # Mengarahkan frontend ke layanan backend di Docker
+      - VITE_API_URL=http://emyu-shop-backend:9000
     depends_on:
       - backend
     networks:
