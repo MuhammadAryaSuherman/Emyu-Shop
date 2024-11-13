@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - master
+      - Tes
     paths:
-      - 'Dockerfile.backend'
+      - 'Dockerfile.backend's
       - 'Dockerfile.frontend'
       - 'src/**'        # Jika frontend Anda berada di folder src
       - 'data/**'       # Jika backend Anda berada di folder data
