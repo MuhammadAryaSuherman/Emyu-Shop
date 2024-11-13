@@ -7,7 +7,7 @@ on:
     paths:
       - 'Dockerfile.backend'
       - 'Dockerfile.frontend'
-      - 'src/**'        
+      - 'src/**'        # Jika frontend Anda berada di folder src
       - 'data/**'       # Jika backend Anda berada di folder data
       - '.github/workflows/**'
 

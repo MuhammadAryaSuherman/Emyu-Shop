@@ -8,7 +8,6 @@ RUN npm install
 
 COPY . .
 
-# Expose port untuk backend
 EXPOSE 9000
 
 # Menjalankan json-server
