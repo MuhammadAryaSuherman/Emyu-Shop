@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - master
+      - Tes
     paths:
-      - 'dockerfile-backend'
-      - 'dockerfile-frontend'
-      - 'src/**'        # Jika frontend Anda berada di folder src
-      - 'data/**'       # Jika backend Anda berada di folder data
+      - 'Dockerfile.backend'
+      - 'Dockerfile.frontend' #cekcek
+      - 'src/**'       
+      - 'data/**'       
       - '.github/workflows/**'
 
 jobs:
