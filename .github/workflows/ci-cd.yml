@@ -6,8 +6,8 @@ on:
       - master
       - Tes
     paths:
-      - 'Dockerfile.backend'
-      - 'Dockerfile.frontend'
+      - 'dockerfile-backend'
+      - 'dockerfile-frontend'
       - 'src/**'        # Jika frontend Anda berada di folder src
       - 'data/**'       # Jika backend Anda berada di folder data
       - '.github/workflows/**'
