@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - master
+      - Tes
     paths:
-      - 'dockerfile-backend'
-      - 'dockerfile-frontend'
-      - 'src/**'        # Jika frontend Anda berada di folder src
-      - 'data/**'       # Jika backend Anda berada di folder data
+      - 'Dockerfile.backend'
+      - 'Dockerfile.frontend'
+      - 'src/**'       
+      - 'data/**'       
       - '.github/workflows/**'
 
 jobs:
@@ -66,7 +67,7 @@ jobs:
     needs: test
 
     steps:
-    - name: Log in to Docker Hub
+    - name: Log in to Docker Hub 
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
