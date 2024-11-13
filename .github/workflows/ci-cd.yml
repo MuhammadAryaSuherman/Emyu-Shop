@@ -6,7 +6,7 @@ on:
       - master
       - Tes
     paths:
-      - 'Dockerfile.backend's
+      - 'Dockerfile.backend'
       - 'Dockerfile.frontend'
       - 'src/**'        # Jika frontend Anda berada di folder src
       - 'data/**'       # Jika backend Anda berada di folder data
