@@ -32,7 +32,7 @@ function ProductPage() {
   return (
     <>
       <div className="container my-4">
-        <h2 className="text-center">Product List</h2>
+        <h2 className="text-center">Product Listt</h2>
 
         <Row>
           {products.map((product) => (
