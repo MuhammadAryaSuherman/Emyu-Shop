@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_API = `${import.meta.env.VITE_API_URL || "http://backend-service:9000"}/products`;
+const BASE_API = `/api/products`;  // Ubah ini
 
 const initialState = {
   products: [],
