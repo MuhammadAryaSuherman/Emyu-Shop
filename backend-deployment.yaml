@@ -1,24 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: emyu-backend
-  labels:
-    app: emyu-backend
+  name: backend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: emyu-backend
+      app: backend
   template:
     metadata:
       labels:
-        app: emyu-backend
+        app: backend
     spec:
       containers:
-      - name: emyu-backend
+      - name: backend
         image: muhammadaryasuherman/emyu-shop-backend:master
         ports:
         - containerPort: 9000
-        env:
-        - name: NODE_ENV
-          value: "production"
