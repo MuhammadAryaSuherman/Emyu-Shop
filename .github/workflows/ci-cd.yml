@@ -11,6 +11,7 @@ on:
       - 'src/**'       
       - 'data/**'       
       - '.github/workflows/**'
+      - '*yaml.'
 
 jobs:
   build:
@@ -31,12 +32,12 @@ jobs:
 
     - name: Build and Push Backend Docker Image
       run: |
-        docker build -t muhammadaryasuherman/emyu-shop-backend:cache -f Dockerfile.backend .
+        docker build -t muhammadaryasuherman/emyu-shop-backend:cache -f dockerfile-backend .
         docker push muhammadaryasuherman/emyu-shop-backend:cache
 
     - name: Build and Push Frontend Docker Image
       run: |
-        docker build -t muhammadaryasuherman/emyu-shop-frontend:cache -f Dockerfile.frontend .
+        docker build -t muhammadaryasuherman/emyu-shop-frontend:cache -f dockerfile-frontend .
         docker push muhammadaryasuherman/emyu-shop-frontend:cache
 
   test:
