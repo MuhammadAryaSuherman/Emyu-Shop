@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_API = `/api/products`;  // Ubah ini
+const BASE_API = `${import.meta.env.VITE_API_URL || "http://localhost:9000"}/products`;
 
 const initialState = {
   products: [],
@@ -39,7 +39,6 @@ export const fetchProducts = () => async (dispatch) => {
   dispatch(fetchProductsStart());
   try {
     const response = await axios.get(BASE_API);
-    console.log(response.data); 
     dispatch(fetchProductsSuccess(response.data));
   } catch (error) {
     dispatch(fetchProductsFailure(error.message));

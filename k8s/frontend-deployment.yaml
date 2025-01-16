@@ -1,3 +1,4 @@
+# frontend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,9 +18,6 @@ spec:
         image: muhammadaryasuherman/emyu-shop-frontend:master
         ports:
         - containerPort: 5173
-        env:
-        - name: NODE_ENV
-          value: "production"
         resources:
           requests:
             cpu: "100m"
