@@ -1,7 +1,7 @@
   import { createSlice } from "@reduxjs/toolkit";
   import axios from "axios";
 
-  const BASE_API = `${import.meta.env.VITE_API_URL || "http://backend:9000"}/products`;
+  const BASE_API = `${import.meta.env.VITE_API_URL || "http://backend:80"}/products`;
 
   const initialState = {
     products: [],

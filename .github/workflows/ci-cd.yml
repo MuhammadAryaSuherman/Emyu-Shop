@@ -89,3 +89,17 @@ jobs:
       run: |
         docker tag muhammadaryasuherman/emyu-shop-frontend:cache muhammadaryasuherman/emyu-shop-frontend:master
         docker push muhammadaryasuherman/emyu-shop-frontend:master
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v1
+      with:
+        kubeconfig: ${{ secrets.KUBECONFIG }}
+
+  - name: Deploy to Kubernetes
+    run: |
+      kubectl apply -f ./k8s/backend-deployment.yaml
+      kubectl apply -f ./k8s/backend-service.yaml
+      kubectl apply -f ./k8s/backend-hpa.yaml
+      kubectl apply -f ./k8s/frontend-deployment.yaml
+      kubectl apply -f ./k8s/frontend-service.yaml
+      kubectl apply -f ./k8s/frontend-hpa.yaml
