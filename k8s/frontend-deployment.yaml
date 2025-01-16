@@ -1,4 +1,3 @@
-# frontend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +16,10 @@ spec:
       - name: frontend
         image: muhammadaryasuherman/emyu-shop-frontend:master
         ports:
-        - containerPort: 5173
+        - containerPort: 80
+        env:
+        - name: VITE_API_URL
+          value: "http://backend-service:9000"
         resources:
           requests:
             cpu: "100m"

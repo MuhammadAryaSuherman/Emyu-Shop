@@ -1,13 +1,24 @@
-# Dockerfile.frontend
+# Gunakan Node.js sebagai base image
 FROM node:20
 
-WORKDIR /src
+# Tentukan direktori kerja di dalam container
+WORKDIR /app
 
+# Salin file package.json dan package-lock.json
 COPY package*.json ./
+
+# Instal dependensi aplikasi
 RUN npm install
 
+# Salin semua file proyek ke dalam container
 COPY . .
 
-EXPOSE 5173
+# Bangun aplikasi frontend
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+# Ekspos port yang akan digunakan aplikasi
+EXPOSE 3000
+
+# Jalankan server menggunakan package seperti serve
+RUN npm install -g serve
+CMD ["serve", "-s", "build", "-l", "3000"]
