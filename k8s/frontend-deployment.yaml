@@ -19,7 +19,7 @@ spec:
         ports:
         - containerPort: 5173
         env:
-        - name: REACT_APP_BACKEND_URL
+        - name: VITE_API_URL  # Ubah ke VITE_API_URL
           value: "http://backend-service:9000"
         resources:
           requests:
@@ -28,3 +28,21 @@ spec:
           limits:
             cpu: "200m"
             memory: "256Mi"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5173
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5173
+          initialDelaySeconds: 45
+          periodSeconds: 20
+        startupProbe:
+          httpGet:
+            path: /
+            port: 5173
+          failureThreshold: 30
+          periodSeconds: 10

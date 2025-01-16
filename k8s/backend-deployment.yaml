@@ -20,9 +20,7 @@ spec:
         - containerPort: 9000
         env:
         - name: CORS_ORIGIN
-          value: "http://frontend-service"
-        - name: DATABASE_URL
-          value: "mongodb://mongodb-service:27017/emyushop"
+          value: "http://frontend-service,http://localhost:5173"
         resources:
           requests:
             cpu: "100m"
