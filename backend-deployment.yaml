@@ -17,9 +17,3 @@ spec:
         image: muhammadaryasuherman/emyu-shop-backend:master
         ports:
         - containerPort: 9000
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 9000
-          initialDelaySeconds: 5
-          periodSeconds: 10
