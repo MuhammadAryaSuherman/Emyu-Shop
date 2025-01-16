@@ -15,6 +15,7 @@ spec:
       containers:
       - name: backend
         image: muhammadaryasuherman/emyu-shop-backend:master
+        # Hapus args karena sudah dikonfigurasi di Dockerfile
         ports:
         - containerPort: 9000
         resources:

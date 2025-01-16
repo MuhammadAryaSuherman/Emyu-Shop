@@ -1,13 +1,21 @@
-# Ubah versi Node dari 18 ke 20
-FROM node:20
+FROM node:20-alpine
 
-WORKDIR /data
+WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
+# Copy data directory specifically since json-server needs it
+COPY data ./data
+
+# Copy all other files
 COPY . .
 
+# Expose port 9000
 EXPOSE 9000
 
-CMD ["npm", "run", "server"]
+# Add middleware for CORS
+CMD ["npx", "json-server", "--watch", "data/product.json", "--host", "0.0.0.0", "--port", "9000", "--middlewares", "./data/middleware.js"]
