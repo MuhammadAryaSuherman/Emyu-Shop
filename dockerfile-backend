@@ -7,6 +7,10 @@ RUN npm install
 
 COPY . .
 
+RUN mkdir -p /data/public
+
+RUN touch /data/product.json
+
 EXPOSE 9000
 
 CMD ["npm", "run", "server"]
