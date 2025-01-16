@@ -5,10 +5,6 @@ WORKDIR /data
 COPY package*.json ./
 RUN npm install
 
-# Pastikan data dan direktori public ada
-COPY data /data
-RUN mkdir -p /data/public
-
 COPY . .
 
 EXPOSE 9000

@@ -1,24 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: emyu-frontend
-  labels:
-    app: emyu-frontend
+  name: frontend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: emyu-frontend
+      app: frontend
   template:
     metadata:
       labels:
-        app: emyu-frontend
+        app: frontend
     spec:
       containers:
-      - name: emyu-frontend
+      - name: frontend
         image: muhammadaryasuherman/emyu-shop-frontend:master
         ports:
         - containerPort: 5173
-        env:
-        - name: NODE_ENV
-          value: "production"
