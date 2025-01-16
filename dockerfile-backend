@@ -5,11 +5,11 @@ WORKDIR /data
 COPY package*.json ./
 RUN npm install
 
-COPY . .
-
+# Pastikan data dan direktori public ada
+COPY data /data
 RUN mkdir -p /data/public
 
-RUN touch /data/product.json
+COPY . .
 
 EXPOSE 9000
 
