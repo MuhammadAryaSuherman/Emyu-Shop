@@ -11,6 +11,7 @@ on:
       - 'src/**'       
       - 'data/**'       
       - '.github/workflows/**'
+      - '.*yaml'
 
 jobs:
   build:
