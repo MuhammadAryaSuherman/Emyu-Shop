@@ -1,3 +1,4 @@
+# Dockerfile.frontend
 FROM node:20
 
 WORKDIR /src
@@ -8,7 +9,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 5173
-
-ENV VITE_API_URL=http://backend-service:9000
 
 CMD ["npm", "run", "dev"]
