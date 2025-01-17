@@ -9,5 +9,4 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 9000
-    nodePort: 30385 
-  type: NodePort
+  type: ClusterIP
