@@ -8,8 +8,8 @@ on:
     paths:
       - 'dockerfile-backend'
       - 'dockerfile-frontend'
-      - 'src/**'
-      - 'data/**'
+      - 'src/**'        # Jika frontend Anda berada di folder src
+      - 'data/**'       # Jika backend Anda berada di folder data
       - '.github/workflows/**'
       - 'k8s/**'
 
@@ -80,46 +80,31 @@ jobs:
     - name: Pull Frontend Image
       run: docker pull muhammadaryasuherman/emyu-shop-frontend:cache
 
-    - name: Retag and Push Backend Image
+    - name: Retag and Push Backend Image as master
       run: |
-        if [ "${{ github.ref_name }}" == "Tes" ]; then
-          docker tag muhammadaryasuherman/emyu-shop-backend:cache muhammadaryasuherman/emyu-shop-backend:tes
-          docker push muhammadaryasuherman/emyu-shop-backend:tes
-        else
-          docker tag muhammadaryasuherman/emyu-shop-backend:cache muhammadaryasuherman/emyu-shop-backend:master
-          docker push muhammadaryasuherman/emyu-shop-backend:master
-        fi
+        docker tag muhammadaryasuherman/emyu-shop-backend:cache muhammadaryasuherman/emyu-shop-backend:master
+        docker push muhammadaryasuherman/emyu-shop-backend:master
 
-    - name: Retag and Push Frontend Image
+    - name: Retag and Push Frontend Image as master
       run: |
-        if [ "${{ github.ref_name }}" == "Tes" ]; then
-          docker tag muhammadaryasuherman/emyu-shop-frontend:cache muhammadaryasuherman/emyu-shop-frontend:tes
-          docker push muhammadaryasuherman/emyu-shop-frontend:tes
-        else
-          docker tag muhammadaryasuherman/emyu-shop-frontend:cache muhammadaryasuherman/emyu-shop-frontend:master
-          docker push muhammadaryasuherman/emyu-shop-frontend:master
-        fi
+        docker tag muhammadaryasuherman/emyu-shop-frontend:cache muhammadaryasuherman/emyu-shop-frontend:master
+        docker push muhammadaryasuherman/emyu-shop-frontend:master
 
   deploy-to-kubernetes:
-  runs-on: ubuntu-latest
-  needs: push
-
-  steps:
-  - name: Checkout Repository
-    uses: actions/checkout@v2
-  
-  - name: Setup Minikube
-    uses: medyagh/setup-minikube@master
-
-  - name: Deploy to Kubernetes
-    run: |
-      eval $(minikube docker-env)
-      # Pastikan namespace 'tes' digunakan untuk branch 'Tes'
-      if [ "${{ github.ref_name }}" == "Tes" ]; then
-        kubectl apply -f k8s/ --namespace=tes  
-      else
-        kubectl apply -f k8s/  
-      fi
-      kubectl get pods --namespace=tes  
-      kubectl get services --namespace=tes  
+    runs-on: ubuntu-latest
+    needs: push
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Setup Minikube
+      uses: medyagh/setup-minikube@master
+      
+    - name: Deploy to Minikube
+      run: |
+        eval $(minikube docker-env)
+        kubectl apply -f k8s/
+        kubectl get pods
+        kubectl get services
 
