@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_API = "http://emyu-shop.local/api/products";
+// Ubah ini untuk menggunakan NodePort URL saat di local development
+const BASE_API = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:9000/products'
+  : `${import.meta.env.VITE_API_URL}/products`;
+
+// Tambahkan logging untuk debug
+console.log('API URL:', BASE_API);
 
 const initialState = {
   products: [],
@@ -34,14 +40,19 @@ export const {
   fetchProductsFailure,
 } = productSlice.actions;
 
-// Thunk
+// Thunk dengan error handling yang lebih detail
 export const fetchProducts = () => async (dispatch) => {
   dispatch(fetchProductsStart());
   try {
+    console.log('Fetching from:', BASE_API);
     const response = await axios.get(BASE_API);
+    console.log('Response:', response.data);
     dispatch(fetchProductsSuccess(response.data));
   } catch (error) {
-    dispatch(fetchProductsFailure(error.message));
+    console.error('Error fetching products:', error);
+    dispatch(fetchProductsFailure(
+      error.response?.data?.message || error.message
+    ));
   }
 };
 
