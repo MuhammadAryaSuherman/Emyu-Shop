@@ -15,11 +15,12 @@ spec:
       containers:
       - name: frontend
         image: muhammadaryasuherman/emyu-shop-frontend:master
+        imagePullPolicy: Never  # Karena image ada di local
         ports:
         - containerPort: 80
         env:
         - name: VITE_API_URL
-          value: "http://192.168.49.2:30001"  # Minikube Node IP
+          value: "http://backend-service:9000"  # Menggunakan service DNS name
         resources:
           requests:
             cpu: "100m"
