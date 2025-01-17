@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_API = `${import.meta.env.VITE_API_URL || "http://backend-service"}/products`;
-
+const BASE_API = "http://emyu-shop.local/api/products";
 
 const initialState = {
   products: [],
