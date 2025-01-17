@@ -23,4 +23,4 @@ spec:
           service:
             name: backend-service
             port:
-              number: 80
+              number: 9000
