@@ -8,7 +8,7 @@
   "build": "vite build",
   "lint": "eslint .",
   "preview": "vite preview",
-  "server": "json-server --watch data/product.json --port 9000",
+  "server": "json-server --watch data/product.json --port 9000 --host 0.0.0.0 --middlewares ./cors.js",
   "test": "echo \"No tests specified\" && exit 0"
 }
 
