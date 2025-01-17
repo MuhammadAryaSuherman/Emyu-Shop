@@ -6,6 +6,7 @@ spec:
   selector:
     app: backend
   ports:
-  - port: 9000
-    targetPort: 9000
-  type: ClusterIP
+    - port: 9000        # Port internal Service
+      targetPort: 9000  # Port di container backend
+      nodePort: 31000   # Port tetap untuk akses dari luar (opsional, bisa dihilangkan agar otomatis)
+  type: NodePort
