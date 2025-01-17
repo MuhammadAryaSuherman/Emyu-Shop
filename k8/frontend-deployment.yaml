@@ -15,8 +15,12 @@ spec:
       containers:
       - name: frontend
         image: muhammadaryasuherman/emyu-shop-frontend:master
+        imagePullPolicy: Never
         ports:
         - containerPort: 5173
+        env:
+        - name: VITE_API_URL
+          value: "http://backend"
         resources:
           requests:
             cpu: "100m"
