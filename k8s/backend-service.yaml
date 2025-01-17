@@ -9,5 +9,5 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 9000
-    nodePort: 30385 # Tentukan NodePort secara eksplisit (Opsional)
-  type: NodePort
+    nodePort: 30385 
+  type: NodePorts
