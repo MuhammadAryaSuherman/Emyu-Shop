@@ -15,7 +15,7 @@ spec:
       containers:
       - name: backend
         image: muhammadaryasuherman/emyu-shop-backend:master
-        imagePullPolicy: Never  # Karena image ada di local
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000
         resources:

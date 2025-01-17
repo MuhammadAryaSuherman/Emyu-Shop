@@ -15,12 +15,12 @@ spec:
       containers:
       - name: frontend
         image: muhammadaryasuherman/emyu-shop-frontend:master
-        imagePullPolicy: Never  # Karena image ada di local
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         env:
         - name: VITE_API_URL
-          value: "http://backend-service:9000"  # Menggunakan service DNS name
+          value: "http://backend-service:9000"  # Menggunakan backend service DNS
         resources:
           requests:
             cpu: "100m"
