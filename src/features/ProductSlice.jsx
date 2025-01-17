@@ -2,10 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Ubah ini untuk menggunakan NodePort URL saat di local development
-const BASE_API = process.env.NODE_ENV === 'development' 
-  ? 'http://localhost:9000/products'
-  : `${import.meta.env.VITE_API_URL}/products`;
-
+const BASE_API = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/products`
+  : "http://127.0.0.1:9000/products";
 // Tambahkan logging untuk debug
 console.log('API URL:', BASE_API);
 
