@@ -19,6 +19,10 @@ spec:
         image: muhammadaryasuherman/emyu-shop-backend:master
         ports:
         - containerPort: 9000
+        volumeMounts:
+        - name: products-volume
+          mountPath: /app/data/products.json
+          subPath: products.json
         resources:
           limits:
             cpu: "500m"
@@ -26,4 +30,10 @@ spec:
           requests:
             cpu: "250m"
             memory: "256Mi"
-
+      volumes:
+      - name: products-volume
+        configMap:
+          name: products-config
+          items:
+          - key: products.json
+            path: products.json
