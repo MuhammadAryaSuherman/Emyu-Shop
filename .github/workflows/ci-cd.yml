@@ -11,6 +11,7 @@ on:
       - 'src/**'       
       - 'data/**'       
       - '.github/workflows/**'
+      - 'k8/**'
       - '.*yaml'
 
 jobs:
@@ -97,11 +98,11 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
-        kubectl apply -f backend-deployment.yaml
-        kubectl apply -f backend-service.yaml
-        kubectl apply -f backend-hpa.yaml
-        kubectl apply -f frontend-deployment.yaml
-        kubectl apply -f frontend-service.yaml
-        kubectl apply -f frontend-hpa.yaml
-        kubectl apply -f prometheus-deployment.yaml
-        kubectl apply -f grafana-deployment.yaml
+        kubectl apply -f k8/backend-deployment.yaml
+        kubectl apply -f k8/backend-service.yaml
+        kubectl apply -f k8/backend-hpa.yaml
+        kubectl apply -f k8/frontend-deployment.yaml
+        kubectl apply -f k8/frontend-service.yaml
+        kubectl apply -f k8/frontend-hpa.yaml
+        kubectl apply -f k8/prometheus-deployment.yaml
+        kubectl apply -f k8/grafana-deployment.yaml
