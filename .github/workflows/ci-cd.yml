@@ -8,8 +8,8 @@ on:
     paths:
       - 'dockerfile-backend'
       - 'dockerfile-frontend'
-      - 'src/**'        # Jika frontend Anda berada di folder src
-      - 'data/**'       # Jika backend Anda berada di folder data
+      - 'src/**'        
+      - 'data/**'       
       - '.github/workflows/**'
       - 'k8s/**'
 
@@ -103,7 +103,6 @@ jobs:
       
     - name: Deploy to Minikube
       run: |
-        eval $(minikube docker-env)
         kubectl apply -f k8s/
         kubectl get pods
         kubectl get services
